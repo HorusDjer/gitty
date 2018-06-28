@@ -57,3 +57,9 @@ select cc.statecode
     --find those in the unturfed region at a particular week
     ) x where region='Unturfed' and statecode='PA' and week_iso=24---and countyname='PHILADELPHIA'
     GROUP BY 1,2 order by 3 desc
+    
+-- query 2 (checking latest canvass synced to database)
+SELECT datecanvassed
+FROM fof_vansync.contacts_contacts_vf
+WHERE StateCode = 'NV'
+ORDER BY datecanvassed DESC
