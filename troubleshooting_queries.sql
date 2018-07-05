@@ -58,13 +58,14 @@ select cc.statecode
     ) x where region='Unturfed' and statecode='PA' and week_iso=24---and countyname='PHILADELPHIA'
     GROUP BY 1,2 order by 3 desc
     
--- query 2 (checking latest canvass synced to database)
+--  QUERY 2 (checking latest canvass synced to database)
 SELECT datecanvassed
 FROM fof_vansync.contacts_contacts_vf
 WHERE StateCode = 'NV'
 ORDER BY datecanvassed DESC
 
--- QUERY 3 (checking for descrepancies canvass count in VAN and Catalist by county)
+/* QUERY 3 (checking for descrepancies canvass count in VAN and Catalist 
+by county) */
 SELECT ds.countyname, COUNT(ccv.DateCanvassed)
 FROM fof_vansync.contacts_contacts_vf as ccv
 LEFT JOIN fof_vansync.dwid_to_van as dtv
@@ -76,3 +77,27 @@ WHERE DateCanvassed >= '2018-06-29'
  AND ccv.statecode = 'OH'
  GROUP BY ds.countyname
  ORDER BY ds.countyname ASC
+
+-- grouping by datecreated to see if certain days don't have full sync.
+SELECT DateCreated::Date, COUNT(ccv.DateCreated)
+FROM fof_vansync.contacts_contacts_vf as ccv
+LEFT JOIN fof_vansync.dwid_to_van as dtv
+       on ccv.VanID = dtv.VanID and dtv.Statecode = ccv.StateCode
+LEFT JOIN catalist_mdr.district_s ds
+        on dtv.dwid = ds.dwid and dtv.StateCode = ds.state
+WHERE DateCanvassed >= '2018-06-29'
+ AND ContactTypeID in (2, 36)
+ AND ccv.statecode = 'OH'
+GROUP BY DateCreated::Date
+ORDER BY DateCreated ASC;
+
+--pulling counts of total canvassed in a given week
+SELECT COUNT(ccv.DateCanvassed)
+FROM fof_vansync.contacts_contacts_vf as ccv
+LEFT JOIN fof_vansync.dwid_to_van as dtv
+       on ccv.VanID = dtv.VanID and dtv.Statecode = ccv.StateCode
+LEFT JOIN catalist_mdr.district_s ds
+        on dtv.dwid = ds.dwid and dtv.StateCode = ds.state
+WHERE DateCanvassed >= '2018-06-29'
+ AND ContactTypeID in (2, 36)
+ AND ccv.statecode = 'OH'
