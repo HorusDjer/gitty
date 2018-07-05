@@ -63,3 +63,16 @@ SELECT datecanvassed
 FROM fof_vansync.contacts_contacts_vf
 WHERE StateCode = 'NV'
 ORDER BY datecanvassed DESC
+
+-- QUERY 3 (checking for descrepancies canvass count in VAN and Catalist by county)
+SELECT ds.countyname, COUNT(ccv.DateCanvassed)
+FROM fof_vansync.contacts_contacts_vf as ccv
+LEFT JOIN fof_vansync.dwid_to_van as dtv
+        on ccv.VanID = dtv.VanID and dtv.Statecode = ccv.StateCode
+LEFT JOIN catalist_mdr.district_s ds
+        on dtv.dwid = ds.dwid and dtv.StateCode = ds.state
+WHERE DateCanvassed >= '2018-06-29'
+ AND ContactTypeID in (2, 36)
+ AND ccv.statecode = 'OH'
+ GROUP BY ds.countyname
+ ORDER BY ds.countyname ASC
