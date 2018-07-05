@@ -1,4 +1,9 @@
---query 1 for troubleshooting
+/*
+THIS IS A COMPILATION OF QUERIES FOR QUICK TROUBLESHOOTING FOR COMMON PROBLEMS
+TO SEE WHEN TO USE THESE QUERIES CHECK ERROR LOG TRACKER IN THE SOLUTION FIELD
+*/
+
+--QUERY 1 for troubleshooting
 SELECT  countyname, precinctname, sum(weekly_walk_attempts) FROM (
 select cc.statecode
     , di.countyname
@@ -58,14 +63,13 @@ select cc.statecode
     ) x where region='Unturfed' and statecode='PA' and week_iso=24---and countyname='PHILADELPHIA'
     GROUP BY 1,2 order by 3 desc
     
---  QUERY 2 (checking latest canvass synced to database)
+-- QUERY 2 (checking latest canvass synced to database)
 SELECT datecanvassed
 FROM fof_vansync.contacts_contacts_vf
 WHERE StateCode = 'NV'
 ORDER BY datecanvassed DESC
 
-/* QUERY 3 (checking for descrepancies canvass count in VAN and Catalist 
-by county) */
+-- QUERY 3 (checking for descrepancies canvass count in VAN and Catalist by county)
 SELECT ds.countyname, COUNT(ccv.DateCanvassed)
 FROM fof_vansync.contacts_contacts_vf as ccv
 LEFT JOIN fof_vansync.dwid_to_van as dtv
@@ -78,7 +82,7 @@ WHERE DateCanvassed >= '2018-06-29'
  GROUP BY ds.countyname
  ORDER BY ds.countyname ASC
 
--- grouping by datecreated to see if certain days don't have full sync.
+-- grouping by DateCreated to see if certain days don't have full sync in VAN.
 SELECT DateCreated::Date, COUNT(ccv.DateCreated)
 FROM fof_vansync.contacts_contacts_vf as ccv
 LEFT JOIN fof_vansync.dwid_to_van as dtv
