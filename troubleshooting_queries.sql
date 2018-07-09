@@ -111,6 +111,7 @@ Select
     statecode
    ,Count(*)
 From fof_vansync.contacts_contacts_vf
+-- counts for all states can be changed
 Where statecode in ('NV', 'VA', 'MI', 'FL', 'OH', 'WI', 'PA')
- and DateCanvassed >= '2018-07-06'
+ and DateCanvassed >= '2018-07-06' -- use any last Friday date
 Group by statecode;
