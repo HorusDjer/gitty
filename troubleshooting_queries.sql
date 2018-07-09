@@ -105,3 +105,12 @@ LEFT JOIN catalist_mdr.district_s ds
 WHERE DateCanvassed >= '2018-06-29'
  AND ContactTypeID in (2, 36)
  AND ccv.statecode = 'OH'
+
+-- Query 4 (Checking counts of all states since last week)
+Select
+    statecode
+   ,Count(*)
+From fof_vansync.contacts_contacts_vf
+Where statecode in ('NV', 'VA', 'MI', 'FL', 'OH', 'WI', 'PA')
+ and DateCanvassed >= '2018-07-06'
+Group by statecode;
