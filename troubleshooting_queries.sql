@@ -69,7 +69,7 @@ FROM fof_vansync.contacts_contacts_vf
 WHERE StateCode = 'NV'
 ORDER BY datecanvassed DESC
 
--- QUERY 3 (checking for descrepancies canvass count in VAN and Catalist by county)
+-- QUERY 3 (checking for descrepancies with canvass count in VAN and Catalist by county)
 SELECT ds.countyname, COUNT(ccv.DateCanvassed)
 FROM fof_vansync.contacts_contacts_vf as ccv
 LEFT JOIN fof_vansync.dwid_to_van as dtv
