@@ -112,7 +112,17 @@ Select
    ,Count(*)
 From fof_vansync.contacts_contacts_vf
 Where statecode in ('NV', 'VA', 'MI', 'FL', 'OH', 'WI', 'PA')
- and DateCanvassed >= '2018-07-06'
+ and DateCanvassed >= '2018-07-06' --edit to check current date
+ and ContactTypeID in (2, 36)
+Group by statecode
+
+Select
+    statecode
+   ,Count(*)
+From fof_vansync.contacts_contacts_vf
+Where statecode in ('NV', 'VA', 'MI', 'FL', 'OH', 'WI', 'PA')
+ and DateCanvassed >= '2018-06-29' 
+ and DateCanvassed< '2018-07-06' --looking for date range
  and ContactTypeID in (2, 36)
 Group by statecode
 Order by statecode asc;
