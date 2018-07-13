@@ -32,9 +32,9 @@ select cc.statecode
     , max(case 
         when cc.statecode='WI' and cc.datecanvassed::date <= '2018-04-03' then 'Phase 1'
         when cc.statecode='WI' and cc.datecanvassed::date > '2018-04-03' then 'Phase 2'
-            when cc.statecode='OH' and cc.datecanvassed::date <= '2018-05-03' then 'Phase 1'
+        when cc.statecode='OH' and cc.datecanvassed::date <= '2018-05-03' then 'Phase 1'
         when cc.statecode='OH' and cc.datecanvassed::date > '2018-05-03' then 'Phase 2'
-            when cc.statecode='MI' and cc.datecanvassed::date<='2018-06-15' then 'Phase 1.1'
+        when cc.statecode='MI' and cc.datecanvassed::date<='2018-06-15' then 'Phase 1.1'
         when cc.statecode='MI' and cc.datecanvassed::date>'2018-06-15' then 'Phase 1.2'
         when cc.statecode='MI' and cc.datecanvassed::date>'2018-08-10' then 'Phase 2'
         when cc.statecode='MI' and cc.datecanvassed::date>'2018-10-19' then 'Phase 3'
